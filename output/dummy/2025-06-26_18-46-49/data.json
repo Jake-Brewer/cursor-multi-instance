@@ -1,0 +1,5 @@
+{
+    "user_id": 12345,
+    "username": "dummy_user",
+    "data": "This is mock data from the dummy provider."
+}

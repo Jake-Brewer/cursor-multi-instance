@@ -1,0 +1,28 @@
+# Data Ingestor Configuration Example
+# Copy this file to config.yaml and fill in your details.
+
+# General settings
+output_directory: "output"
+log_level: "INFO" # DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+# Provider-specific settings (add sections for each provider you use)
+# Keys and secrets should be handled by the AuthManager, but other settings
+# can be placed here.
+providers:
+  google:
+    # Example setting for a hypothetical Google provider
+    scopes:
+      - "https://www.googleapis.com/auth/drive.readonly"
+      - "https://www.googleapis.com/auth/photoslibrary.readonly"
+  
+  twitter:
+    # No specific config needed yet, will use AuthManager for keys
+    enabled: true
+
+# Authentication settings will be managed by AuthManager, likely through a
+# separate, git-ignored .env file or system keychain.
+# Example .env structure:
+# GOOGLE_CLIENT_ID="your_client_id"
+# GOOGLE_CLIENT_SECRET="your_client_secret"
+# TWITTER_API_KEY="your_api_key"
+# TWITTER_API_SECRET_KEY="your_api_secret_key" 
