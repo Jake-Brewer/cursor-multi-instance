@@ -96,9 +96,20 @@ Authentication will be managed by the `AuthManager`, which will primarily use en
 
 For providers requiring OAuth 2.0 (like Google), the respective provider module will be responsible for handling the authorization flow (redirecting the user, handling callbacks, and storing tokens).
 
+## Facebook Data Download
+
+Unlike Google's Data Portability API, Facebook does not offer a direct API for programmatically initiating a personal data export. The "Download Your Information" feature is a manual process that must be initiated by the user through the Facebook website.
+
+Therefore, the `FacebookProvider` will not automate the download itself. Instead, it will:
+1.  Provide the user with a direct link to the "Download Your Information" page.
+2.  Display clear, step-by-step instructions on how to request all their data in JSON format.
+3.  Instruct the user where to place the downloaded ZIP file so the application can process it in a future step (manual import).
+
+This approach ensures compliance with Facebook's Terms of Service while still assisting the user in the data collection process.
+
 ## Google Data Portability API
 
-Initial research indicates that a direct, automated Google Takeout export is not supported. The correct, TOS-compliant method for programmatically accessing user data is the **Google Data Portability API**.
+Initial research indicates that a direct, automated Google Takeout export is not supported. The correct approach is to use the **Google Data Portability API**. This API requires an OAuth 2.0 flow for user consent, which will grant the application access to specific data scopes (e.g., `myactivity.youtube`).
 
 ### Key Characteristics:
 - **OAuth 2.0**: Access requires user consent via a standard OAuth 2.0 flow. The application must be registered with Google Cloud, and an OAuth consent screen must be configured.
