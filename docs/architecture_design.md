@@ -1,5 +1,4 @@
 # Architecture Design: Data Ingestor
-<!-- LOCKED:DIA:2023-05-28T14:48:00Z:2023-05-28T14:53:00Z -->
 <!-- Updated: 2023-05-28T14:48:00Z -->
 
 This document outlines the high-level architecture for the Data Ingestor project.
@@ -89,4 +88,28 @@ graph TD
 - **Functionality**:
     - Built using a library like `click` or `argparse`.
     - Allows users to specify which provider to run, override config settings, etc.
-    - Displays progress and results to the user. 
+    - Displays progress and results to the user.
+
+## Authentication and Authorization
+
+Authentication will be managed by the `AuthManager`, which will primarily use environment variables (`.env` file) to store API keys and secrets. 
+
+For providers requiring OAuth 2.0 (like Google), the respective provider module will be responsible for handling the authorization flow (redirecting the user, handling callbacks, and storing tokens).
+
+## Google Data Portability API
+
+Initial research indicates that a direct, automated Google Takeout export is not supported. The correct, TOS-compliant method for programmatically accessing user data is the **Google Data Portability API**.
+
+### Key Characteristics:
+- **OAuth 2.0**: Access requires user consent via a standard OAuth 2.0 flow. The application must be registered with Google Cloud, and an OAuth consent screen must be configured.
+- **Granular Scopes**: The API uses specific scopes to request access to different data types (e.g., `myactivity.youtube`, `myactivity.search`). This gives users fine-grained control over what they share.
+- **Verification Required**: Many scopes are classified as "sensitive" or "restricted." To use these in a production application, the app must undergo a verification process by Google to ensure it complies with their data handling policies.
+- **No Direct Takeout**: This API does not trigger a traditional Takeout `.zip` file export. Instead, it provides direct API access to the underlying data, which this application will then need to process and save.
+
+The implementation of the `GoogleProvider` will need to handle the entire OAuth 2.0 lifecycle.
+
+## Data Flow
+
+The orchestrator that discovers and executes available providers.
+*   **CLI**:
+    A command-line interface for listing and running providers. 
