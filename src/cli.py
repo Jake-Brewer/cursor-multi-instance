@@ -1,4 +1,3 @@
-# <!-- LOCKED:DIA:2023-05-28T15:50:00Z:2023-05-28T15:55:00Z -->
 import click
 
 from src.core.ingestor import Ingestor
