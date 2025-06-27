@@ -11,6 +11,8 @@ This file tracks active LLM agents working in this repository to prevent conflic
 | LinearTaskProcessor | LTP | 2023-06-14T15:21:00Z | 2025-06-27 05:41:59 | Processing Linear issues (label management, decomposition) |
 | TaskExecutor | TE | 2023-06-21T11:00:00Z | 2023-06-21T11:00:00Z | Executing Linear tasks for the data-ingestor project |
 | MonitoringAgent | MA | 2024-07-10T12:00:00Z | 2024-07-10T12:00:00Z | Implementing task monitoring and Linear task processing |
+| AutonomousReadyToWorkExecutor | ARTWE | 2025-06-27T05:45:00Z | 2025-06-27T05:45:00Z | Autonomously executing ready-to-work Linear tasks |
+| ContinuousDesignDetailingAgent | CDDA | 2025-06-27T06:00:00Z | 2025-06-27T06:00:00Z | Converting needs-design issues into fully specified tickets ready for implementation |
 
 ## Registration Process
 
