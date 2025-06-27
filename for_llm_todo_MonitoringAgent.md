@@ -5,7 +5,7 @@
 - [x] Implement infinite monitoring loop for Linear tasks
 - [x] Create comprehensive test suite for monitoring functionality
 - [x] Develop robust error handling and backoff mechanisms
-- [ ] Implement task processing logic
+- [ ] Implement task processing logic [JAK-535](https://linear.app/jakez/issue/JAK-535)
   - [ ] Create task processor interface
   - [ ] Develop state transition handlers
   - [ ] Implement task priority routing
@@ -36,6 +36,7 @@
 - [x] Develop test suite for monitoring functionality
 - [x] Implement adaptive polling with exponential backoff
 - [x] Update README with monitoring documentation
+- [x] Create Linear task [JAK-535](https://linear.app/jakez/issue/JAK-535) for task processing
 
 ## Notes
 
