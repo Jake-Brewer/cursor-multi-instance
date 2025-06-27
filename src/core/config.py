@@ -1,4 +1,3 @@
-# <!-- LOCKED:DIA:2023-05-28T15:00:00Z:2023-05-28T15:05:00Z -->
 import os
 from typing import Any, Optional
 
@@ -43,18 +42,14 @@ class ConfigManager:
             # Assume the script is run from the project root
             full_path = os.path.join(os.getcwd(), config_path)
             if not os.path.exists(full_path):
-                raise ConfigError(
-                    f"Configuration file not found at: {full_path}"
-                )
+                raise ConfigError(f"Configuration file not found at: {full_path}")
 
             with open(full_path, "r") as f:
                 self._config_data = yaml.safe_load(f)
 
             if not isinstance(self._config_data, dict):
                 self._config_data = {}
-                raise ConfigError(
-                    "Configuration file is not a valid YAML dictionary."
-                )
+                raise ConfigError("Configuration file is not a valid YAML dictionary.")
 
         except (yaml.YAMLError, IOError) as e:
             raise ConfigError(f"Error loading configuration file: {e}") from e

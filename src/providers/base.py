@@ -1,4 +1,3 @@
-# <!-- LOCKED:DIA:2023-05-28T15:30:00Z:2023-05-28T15:35:00Z -->
 from abc import ABC, abstractmethod
 from typing import Any
 

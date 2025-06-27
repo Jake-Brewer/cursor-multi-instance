@@ -39,8 +39,8 @@
   - [ ] Facebook Data Download: Research automation methods
     - [x] Research complete. No direct API exists for personal data.
     - [x] Update architecture to reflect manual download guide strategy.
-    - [ ] Create `docs/facebook_guide.md` with instructions.
-    - [ ] Implement `FacebookProvider` to display the guide and link.
+    - [x] Create `docs/facebook_guide.md` with instructions.
+    - [x] Implement `FacebookProvider` to display the guide and link.
 - [ ] Implement Twitter/X archive provider
 - [ ] Implement LinkedIn data export provider
 
@@ -68,7 +68,7 @@
 ### Provider Implementation
 
 - [x] Google Provider: Initial research and setup complete.
-- [ ] Facebook Data Download: Research automation methods
+- [x] Facebook Data Download: Research automation methods
 
 ### Provider Implementation
 
