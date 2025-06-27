@@ -20,6 +20,7 @@ python -m src
 - `--port`: Specify the port to run the server on (default: 8000)
 
 Example:
+
 ```bash
 python -m src --host 127.0.0.1 --port 9000
 ```
@@ -51,6 +52,7 @@ python -m src --host 127.0.0.1 --port 9000
 1. Clone the repository
 2. Create a virtual environment
 3. Install dependencies:
+
    ```bash
    pip install -r requirements.txt
    ```
@@ -72,3 +74,43 @@ Please read our contribution guidelines before submitting pull requests.
 ## Disclaimer
 
 This project is not affiliated with or endorsed by any data provider. Use at your own risk.
+
+## Linear Task Monitoring
+
+### Overview
+
+The `LinearTaskMonitor` provides a robust, adaptive monitoring system for Linear tasks with the following key features:
+
+- **Adaptive Polling**: Dynamically adjusts polling intervals using exponential backoff
+- **Error Resilience**: Configurable retry mechanism with maximum retry limits
+- **Flexible Task Filtering**: Filter tasks by state and priority
+- **Graceful Shutdown**: Handles interruption signals cleanly
+
+### Configuration Options
+
+```python
+monitor = LinearTaskMonitor(
+    linear_client=client,
+    poll_interval=5,      # Base polling interval (seconds)
+    max_retries=3,        # Maximum retry attempts
+    backoff_factor=2.0    # Exponential backoff multiplier
+)
+```
+
+### Usage Example
+
+```python
+# Monitor tasks in 'backlog' or 'in_progress' states
+# with priority >= 2
+monitor.start_monitoring(
+    state_filter=['backlog', 'in_progress'],
+    priority_threshold=2,
+    timeout=3600  # Optional: Run for 1 hour
+)
+```
+
+### Error Handling
+
+- Automatically retries on connection errors
+- Exponential backoff to prevent overwhelming the API
+- Configurable maximum retry attempts

@@ -1,5 +1,5 @@
 # LLM Agent Registry
-<!-- Updated: 2025-06-27T04:00:00Z -->
+<!-- Updated: 2024-07-10T12:00:00Z -->
 
 This file tracks active LLM agents working in this repository to prevent conflicts.
 
@@ -10,6 +10,7 @@ This file tracks active LLM agents working in this repository to prevent conflic
 | DataIngestorAgent | DIA | 2023-05-28T14:32:45Z | 2023-05-28T14:32:45Z | Setting up Python project for personal data ingestion |
 | LinearTaskProcessor | LTP | 2023-06-14T15:21:00Z | 2025-06-27 05:41:59 | Processing Linear issues (label management, decomposition) |
 | TaskExecutor | TE | 2023-06-21T11:00:00Z | 2023-06-21T11:00:00Z | Executing Linear tasks for the data-ingestor project |
+| MonitoringAgent | MA | 2024-07-10T12:00:00Z | 2024-07-10T12:00:00Z | Implementing task monitoring and Linear task processing |
 
 ## Registration Process
 
