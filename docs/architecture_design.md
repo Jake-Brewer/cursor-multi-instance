@@ -48,51 +48,57 @@ graph TD
 ```
 
 ### 1. `Ingestor` (Orchestrator)
+
 - **Responsibility**: The main entry point that orchestrates the entire data ingestion process.
 - **Functionality**:
-    - Initializes `ConfigManager` and `AuthManager`.
-    - Discovers and instantiates the requested `Provider` modules.
-    - Executes the provider's data fetching logic.
-    - Logs progress and status using a logging utility (e.g., `rich`).
+  - Initializes `ConfigManager` and `AuthManager`.
+  - Discovers and instantiates the requested `Provider` modules.
+  - Executes the provider's data fetching logic.
+  - Logs progress and status using a logging utility (e.g., `rich`).
 
 ### 2. `ConfigManager`
+
 - **Responsibility**: Manages all configuration for the application.
 - **Functionality**:
-    - Loads settings from a `config.yaml` file.
-    - Validates configuration schema.
-    - Provides a simple interface to access configuration properties (e.g., `config.get('download_path')`).
+  - Loads settings from a `config.yaml` file.
+  - Validates configuration schema.
+  - Provides a simple interface to access configuration properties (e.g., `config.get('download_path')`).
 
 ### 3. `AuthManager`
+
 - **Responsibility**: Handles secure storage and retrieval of authentication credentials.
 - **Functionality**:
-    - Manages API keys, tokens, and other secrets.
-    - Provides methods for providers to retrieve necessary credentials.
-    - May interact with system keychains or `.env` files for secure storage.
+  - Manages API keys, tokens, and other secrets.
+  - Provides methods for providers to retrieve necessary credentials.
+  - May interact with system keychains or `.env` files for secure storage.
 
 ### 4. `BaseProvider` (Abstract Base Class)
+
 - **Responsibility**: Defines the standard interface for all data source providers.
 - **Functionality**:
-    - Defines abstract methods like `authenticate()`, `fetch_data()`, `get_status()`.
-    - Contains common helper methods and properties (e.g., `rate_limit`, `user_agent`).
-    - Ensures all providers have a consistent structure, making them interchangeable.
+  - Defines abstract methods like `authenticate()`, `fetch_data()`, `get_status()`.
+  - Contains common helper methods and properties (e.g., `rate_limit`, `user_agent`).
+  - Ensures all providers have a consistent structure, making them interchangeable.
 
 ### 5. `DataHandler`
+
 - **Responsibility**: Manages the processing and storage of downloaded data.
 - **Functionality**:
-    - Receives raw data from providers.
-    - Formats data into a standardized structure (e.g., JSON).
-    - Writes data to the local filesystem in an organized directory structure (e.g., `output/<provider_name>/<timestamp>/`).
+  - Receives raw data from providers.
+  - Formats data into a standardized structure (e.g., JSON).
+  - Writes data to the local filesystem in an organized directory structure (e.g., `output/<provider_name>/<timestamp>/`).
 
 ### 6. Command-Line Interface (`CLI`)
+
 - **Responsibility**: Provides the user interface for running the application.
 - **Functionality**:
-    - Built using a library like `click` or `argparse`.
-    - Allows users to specify which provider to run, override config settings, etc.
-    - Displays progress and results to the user.
+  - Built using a library like `click` or `argparse`.
+  - Allows users to specify which provider to run, override config settings, etc.
+  - Displays progress and results to the user.
 
 ## Authentication and Authorization
 
-Authentication will be managed by the `AuthManager`, which will primarily use environment variables (`.env` file) to store API keys and secrets. 
+Authentication will be managed by the `AuthManager`, which will primarily use environment variables (`.env` file) to store API keys and secrets.
 
 For providers requiring OAuth 2.0 (like Google), the respective provider module will be responsible for handling the authorization flow (redirecting the user, handling callbacks, and storing tokens).
 
@@ -101,17 +107,32 @@ For providers requiring OAuth 2.0 (like Google), the respective provider module 
 Unlike Google's Data Portability API, Facebook does not offer a direct API for programmatically initiating a personal data export. The "Download Your Information" feature is a manual process that must be initiated by the user through the Facebook website.
 
 Therefore, the `FacebookProvider` will not automate the download itself. Instead, it will:
-1.  Provide the user with a direct link to the "Download Your Information" page.
-2.  Display clear, step-by-step instructions on how to request all their data in JSON format.
-3.  Instruct the user where to place the downloaded ZIP file so the application can process it in a future step (manual import).
+
+1. Provide the user with a direct link to the "Download Your Information" page.
+2. Display clear, step-by-step instructions on how to request all their data in JSON format.
+3. Instruct the user where to place the downloaded ZIP file so the application can process it in a future step (manual import).
 
 This approach ensures compliance with Facebook's Terms of Service while still assisting the user in the data collection process.
+
+## Gmail API
+
+A new `GmailProvider` will be implemented to interact with the Gmail API. This will allow for fine-grained searching and downloading of emails and attachments.
+
+### Key Characteristics
+
+- **OAuth 2.0**: Like the Data Portability API, access will require user consent via OAuth 2.0. The same Google Cloud project can likely be used, but new scopes for Gmail will be required (e.g., `https://www.googleapis.com/auth/gmail.readonly`).
+- **Search Functionality**: The Gmail API provides a powerful search query language, similar to the search bar in the Gmail web interface. This will be used to implement the features for searching by sender and by keyword.
+- **Data Structure**: The API returns email data in a structured JSON format. Attachments must be fetched separately using their specific IDs from the email payload.
+- **Folder/Label Mapping**: Gmail uses "labels" instead of folders. The provider will need to fetch the list of labels and map them to a local directory structure to preserve the user's organization.
+
+The `GmailProvider` will handle the OAuth flow, construct search queries based on user input, fetch email lists, iterate through them to download message content and attachments, and use the `DataHandler` to save them to the filesystem.
 
 ## Google Data Portability API
 
 Initial research indicates that a direct, automated Google Takeout export is not supported. The correct approach is to use the **Google Data Portability API**. This API requires an OAuth 2.0 flow for user consent, which will grant the application access to specific data scopes (e.g., `myactivity.youtube`).
 
-### Key Characteristics:
+### Key Characteristics
+
 - **OAuth 2.0**: Access requires user consent via a standard OAuth 2.0 flow. The application must be registered with Google Cloud, and an OAuth consent screen must be configured.
 - **Granular Scopes**: The API uses specific scopes to request access to different data types (e.g., `myactivity.youtube`, `myactivity.search`). This gives users fine-grained control over what they share.
 - **Verification Required**: Many scopes are classified as "sensitive" or "restricted." To use these in a production application, the app must undergo a verification process by Google to ensure it complies with their data handling policies.
@@ -122,5 +143,5 @@ The implementation of the `GoogleProvider` will need to handle the entire OAuth 
 ## Data Flow
 
 The orchestrator that discovers and executes available providers.
-*   **CLI**:
-    A command-line interface for listing and running providers. 
+- **CLI**:
+    A command-line interface for listing and running providers.
