@@ -14,3 +14,14 @@ Design decisions:
 4. Consistent naming scheme across all formats
 5. Robust error handling for conversion failures
 """
+
+from src.core.email.converter import BaseEmailConverter, ConversionError, EmailFormat
+from src.core.email.manager import EmailFormatManager, email_format_manager
+
+__all__ = [
+    "BaseEmailConverter",
+    "ConversionError",
+    "EmailFormat",
+    "EmailFormatManager",
+    "email_format_manager",
+]
