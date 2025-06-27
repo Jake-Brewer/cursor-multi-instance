@@ -29,4 +29,8 @@ python-multipart==0.0.9
 requests==2.31.0
 linear-api==0.1.0
 pytest==7.4.3
-mock==5.1.0 
+mock==5.1.0
+
+# Email format conversion dependencies
+fpdf2>=2.8.3
+weasyprint>=65.1 
